@@ -67,6 +67,10 @@ class MapboxTile(NamedTuple):
     y: int
     z: int
 
+    def __repr__(self):
+        s = f"MapboxTile x={self.x} y={self.y} z={self.z}"
+        return s
+
     def ul(self) -> GeoPoint:
         """Return the upper left GeoPoint of a tile."""
         # https://github.com/mapbox/mercantile/blob/fe3762d14001ca400caf7462f59433b906fc25bd/mercantile/__init__.py#L169
@@ -105,9 +109,7 @@ class MapboxTile(NamedTuple):
 
     def elevation_from_file(self) -> np.ndarray:
         with Image.open(self.elevation_tile_path()) as im:
-            logging.debug(f"image size: {im.size}")
             imarray = np.array(im)
-            logging.debug(f"image array shape: {imarray.shape}")
             red = imarray[:, :, 0]
             green = imarray[:, :, 1]
             blue = imarray[:, :, 2]

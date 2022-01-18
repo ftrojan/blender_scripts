@@ -81,11 +81,8 @@ Filip Trojan 2022-01-12
 """
 from typing import NamedTuple
 import logging
-import io
-import requests
 import numpy as np
 import pandas as pd
-from PIL import Image
 import utils
 
 
@@ -115,7 +112,7 @@ def read_elevation_tiles(x_min, x_max, y_min, y_max, zoom) -> dict:
         for y in range(y_min, y_max + 1):
             tile_id += 1
             tile = utils.MapboxTile(x, y, zoom)
-            logging.info(f"{tile_id}/{num_tiles}: tile ul={tile.ul()} br={tile.br()}")
+            logging.info(f"{tile_id}/{num_tiles}: tile {tile} ul={tile.ul()} br={tile.br()}")
             elevation_array = tile.elevation()
             tile_data[tile.tile_key()] = dict(
                 tile=tile,
