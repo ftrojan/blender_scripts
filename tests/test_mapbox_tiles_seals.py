@@ -105,7 +105,6 @@ class TileSealsStats(NamedTuple):
 
 
 def read_elevation_tiles(x_min, x_max, y_min, y_max, zoom) -> dict:
-    base_url = "https://api.mapbox.com/v4/mapbox.terrain-rgb"
     nx = x_max - x_min + 1
     ny = y_max - y_min + 1
     num_tiles = nx * ny
@@ -117,28 +116,11 @@ def read_elevation_tiles(x_min, x_max, y_min, y_max, zoom) -> dict:
             tile_id += 1
             tile = utils.MapboxTile(x, y, zoom)
             logging.info(f"{tile_id}/{num_tiles}: tile ul={tile.ul()} br={tile.br()}")
-            tile_key = f"{x}_{y}_{zoom}"
-            url = f"{base_url}/{zoom}/{x}/{y}.pngraw"
-            param = dict(access_token=utils.mapbox_token)
-            logging.debug(f"{tile_id}/{num_tiles}: {url}")
-            response = requests.get(url, param)
-            if response.ok:
-                iobytes = io.BytesIO(response.content)
-                with Image.open(iobytes) as im:
-                    logging.debug(f"image size: {im.size}")
-                    imarray = np.array(im)
-                    logging.debug(f"image array shape: {imarray.shape}")
-                    red = imarray[:, :, 0]
-                    green = imarray[:, :, 1]
-                    blue = imarray[:, :, 2]
-                    elevation_array = -10000.0 + 6553.6 * red + 25.6 * green + 0.1 * blue
-                    logging.info(f"el min={np.min(elevation_array):.1f} max={np.max(elevation_array):.1f}")
-                    tile_data[tile_key] = dict(
-                        tile=tile,
-                        elevation=elevation_array,
-                    )
-            else:
-                logging.error(response.text)
+            elevation_array = tile.elevation()
+            tile_data[tile.tile_key()] = dict(
+                tile=tile,
+                elevation=elevation_array,
+            )
     return tile_data
 
 
