@@ -1,0 +1,5 @@
+all bands array (2303, 2304, 4) min=   0 max= 255 mean=132.5
+R: (2303, 2304) min=   1 max=   1 mean=  1.0
+G: (2303, 2304) min= 142 max= 153 mean=146.3
+B: (2303, 2304) min=   0 max= 255 mean=127.9
+height (2303, 2304) min=213.0 max=494.8 mean=312.3

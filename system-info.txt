@@ -1,0 +1,171 @@
+=====================================
+= Blender 2.92.0 System Information =
+=====================================
+
+
+Blender:
+=====================================
+
+version: 2.92.0, branch: master, commit date: 2021-02-24 16:25, hash: 02948a2cab44, type: Release
+build date: 2021-02-25, 09:27:51
+platform: Darwin
+binary path: '/Applications/Blender.app/Contents/MacOS/Blender'
+build cflags:  -Wall -Werror=implicit-function-declaration -Werror=return-type -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wstrict-prototypes -Wmissing-prototypes -Wunused-parameter  -mmacosx-version-min=10.13 -Xclang -fopenmp -I'/Users/blender/blender-buildbot/macos_292/blender.git/../lib/darwin/openmp/include' -std=gnu11 -msse  -pipe -funsigned-char -fno-strict-aliasing -msse2  
+build cxxflags:  -Wall -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wno-overloaded-virtual -Wno-sign-compare -Wno-invalid-offsetof  -mmacosx-version-min=10.13 -ftemplate-depth=1024 -stdlib=libc++ -Xclang -fopenmp -I'/Users/blender/blender-buildbot/macos_292/blender.git/../lib/darwin/openmp/include' -std=c++17 -msse  -pipe -funsigned-char -fno-strict-aliasing -msse2  
+build linkflags: -fexceptions -framework CoreServices -framework Foundation -framework IOKit -framework AppKit -framework Cocoa -framework Carbon -framework AudioUnit -framework AudioToolbox -framework CoreAudio -framework Metal -framework QuartzCore -framework ForceFeedback -liconv -Wl,-stack_size,0x100000 -Wl,-unexported_symbols_list,'/Users/blender/blender-buildbot/macos_292/blender.git/source/creator/osx_locals.map' -stdlib=libc++
+build system: CMake
+
+Python:
+=====================================
+
+version: 3.7.7 (default, Jul  8 2020, 14:54:17)  [Clang 11.0.0 (clang-1100.0.33.8)]
+file system encoding: utf-8:surrogateescape
+paths:
+	'/Applications/Blender.app/Contents/Resources/2.92/scripts/startup'
+	'/Applications/Blender.app/Contents/Resources/2.92/scripts/modules'
+	'/Applications/Blender.app/Contents/Resources/2.92/python/lib/python37.zip'
+	'/Applications/Blender.app/Contents/Resources/2.92/python/lib/python3.7'
+	'/Applications/Blender.app/Contents/Resources/2.92/python/lib/python3.7/lib-dynload'
+	'/Applications/Blender.app/Contents/Resources/2.92/python/lib/python3.7/site-packages'
+	'/Users/ftrojan/BlenderScripts'
+	'/Applications/Blender.app/Contents/Resources/2.92/scripts/freestyle/modules'
+	'/Applications/Blender.app/Contents/Resources/2.92/scripts/addons/modules'
+	'/Users/ftrojan/Library/Application Support/Blender/2.92/scripts/addons/modules'
+	'/Applications/Blender.app/Contents/Resources/2.92/scripts/addons'
+	'/Users/ftrojan/Library/Application Support/Blender/2.92/scripts/addons'
+	'/Applications/Blender.app/Contents/Resources/2.92/scripts/addons_contrib'
+
+Python (External Binary):
+=====================================
+
+binary path: '/Applications/Blender.app/Contents/Resources/2.92/python/bin/python3.7m'
+version: Python 3.7.7
+
+Directories:
+=====================================
+
+scripts:
+	'/Applications/Blender.app/Contents/Resources/2.92/scripts/modules'
+	'/Applications/Blender.app/Contents/Resources/2.92/scripts'
+	'/Users/ftrojan/Library/Application Support/Blender/2.92/scripts'
+user scripts: '/Users/ftrojan/Library/Application Support/Blender/2.92/scripts'
+pref scripts: None
+datafiles: '/Users/ftrojan/Library/Application Support/Blender/2.92/datafiles'
+config: '/Users/ftrojan/Library/Application Support/Blender/2.92/config'
+scripts : '/Users/ftrojan/Library/Application Support/Blender/2.92/scripts'
+autosave: '/Users/ftrojan/Library/Application Support/Blender/2.92/autosave'
+tempdir: '/var/folders/53/p6kj2ygj25g3q9cp7pzbzwvr0000gn/T/blender_nAjtYD/'
+
+FFmpeg:
+=====================================
+
+avcodec:   '58, 54, 100'
+avdevice:  '58,  8, 100'
+avformat:  '58, 29, 100'
+avutil:    '56, 31, 100'
+swscale:   ' 5,  5, 100'
+
+SDL:
+=====================================
+
+Version: 2.0.12
+Loading method: linked (WITH_SDL_DYNLOAD=OFF)
+
+Other Libraries:
+=====================================
+
+OpenColorIO:  1,  1,  1
+OpenImageIO:  2,  1, 15
+OpenShadingLanguage:  1, 10, 10
+OpenSubdiv:  0,  0,  0
+OpenVDB:  7,  0,  0
+Alembic:  1,  7, 12
+USD:  0, 20,  5
+
+OpenGL:
+=====================================
+
+renderer:	'Intel(R) Iris(TM) Plus Graphics 640'
+vendor:		'Intel Inc.'
+version:	'4.1 INTEL-14.7.13'
+extensions:
+	GL_APPLE_client_storage
+	GL_APPLE_container_object_shareable
+	GL_APPLE_flush_render
+	GL_APPLE_object_purgeable
+	GL_APPLE_rgb_422
+	GL_APPLE_row_bytes
+	GL_APPLE_texture_range
+	GL_ARB_ES2_compatibility
+	GL_ARB_blend_func_extended
+	GL_ARB_draw_buffers_blend
+	GL_ARB_draw_indirect
+	GL_ARB_explicit_attrib_location
+	GL_ARB_gpu_shader5
+	GL_ARB_gpu_shader_fp64
+	GL_ARB_instanced_arrays
+	GL_ARB_internalformat_query
+	GL_ARB_occlusion_query2
+	GL_ARB_sample_shading
+	GL_ARB_sampler_objects
+	GL_ARB_separate_shader_objects
+	GL_ARB_shader_bit_encoding
+	GL_ARB_shader_subroutine
+	GL_ARB_shading_language_include
+	GL_ARB_tessellation_shader
+	GL_ARB_texture_buffer_object_rgb32
+	GL_ARB_texture_cube_map_array
+	GL_ARB_texture_gather
+	GL_ARB_texture_query_lod
+	GL_ARB_texture_rgb10_a2ui
+	GL_ARB_texture_storage
+	GL_ARB_texture_swizzle
+	GL_ARB_timer_query
+	GL_ARB_transform_feedback2
+	GL_ARB_transform_feedback3
+	GL_ARB_vertex_attrib_64bit
+	GL_ARB_vertex_type_2_10_10_10_rev
+	GL_ARB_viewport_array
+	GL_ATI_texture_mirror_once
+	GL_EXT_debug_label
+	GL_EXT_debug_marker
+	GL_EXT_framebuffer_multisample_blit_scaled
+	GL_EXT_texture_compression_s3tc
+	GL_EXT_texture_filter_anisotropic
+	GL_EXT_texture_sRGB_decode
+	GL_NV_texture_barrier
+
+Implementation Dependent OpenGL Limits:
+=====================================
+
+Maximum DrawElements Vertices:	1048575
+Maximum DrawElements Indices:	150000
+
+GLSL:
+Maximum Varying Floats:	150000
+Maximum Vertex Attributes:	16
+Maximum Vertex Uniform Components:	4096
+Maximum Fragment Uniform Components:	4096
+Maximum Vertex Image Units:	16
+Maximum Fragment Image Units:	16
+Maximum Pipeline Image Units:	80
+
+Cycles:
+=====================================
+
+
+CPU device capabilities: SSE2 SSE3 SSE41 AVX AVX2
+
+Enabled add-ons:
+=====================================
+
+io_anim_bvh (version: (1, 0, 0), path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/io_anim_bvh/__init__.py)
+io_curve_svg (version: UNKNOWN, path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/io_curve_svg/__init__.py)
+io_mesh_ply (version: UNKNOWN, path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/io_mesh_ply/__init__.py)
+io_mesh_stl (version: (1, 1, 3), path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/io_mesh_stl/__init__.py)
+io_mesh_uv_layout (version: (1, 1, 1), path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/io_mesh_uv_layout/__init__.py)
+io_scene_fbx (version: (4, 22, 0), path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/io_scene_fbx/__init__.py)
+io_scene_gltf2 (version: (1, 5, 17), path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/io_scene_gltf2/__init__.py)
+io_scene_obj (version: (3, 8, 1), path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/io_scene_obj/__init__.py)
+io_scene_x3d (version: (2, 2, 5), path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/io_scene_x3d/__init__.py)
+cycles (version: UNKNOWN, path: /Applications/Blender.app/Contents/Resources/2.92/scripts/addons/cycles/__init__.py)

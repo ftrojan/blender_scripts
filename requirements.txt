@@ -1,0 +1,9 @@
+setuptools~=52.0.0
+pytest
+numpy~=1.20.1
+pandas
+geotiff~=1.6.0
+geopy~=2.1.0
+bpy
+requests
+Pillow

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx creator="Garmin Connect" version="1.1"
+  xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/11.xsd"
+  xmlns:ns3="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"
+  xmlns="http://www.topografix.com/GPX/1/1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+  <metadata>
+    <link href="connect.garmin.com">
+      <text>Garmin Connect</text>
+    </link>
+    <time>2020-03-26T11:35:02.000Z</time>
+  </metadata>
+  <trk>
+    <name>Beroun BBOX</name>
+    <type>running</type>
+    <trkseg>
+      <trkpt lat="49.93707935954442" lon="13.99658203125"></trkpt>
+      <trkpt lat="50.00067775723634" lon="13.99658203125"></trkpt>
+      <trkpt lat="50.00067775723634" lon="14.095458984375"></trkpt>
+      <trkpt lat="49.93707935954442" lon="14.095458984375"></trkpt>
+      <trkpt lat="49.93707935954442" lon="13.99658203125"></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
