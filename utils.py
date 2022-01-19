@@ -128,7 +128,12 @@ class MapboxTile(NamedTuple):
             logging.error(response.text)
 
     def download_static_tile(self, style_id: str, tilesize: int = 512):
-        """Download and save raster image 512*512 from mapbox."""
+        """
+        Download and save raster image 512*512 from mapbox.
+
+        :param style_id: satellite-v9, streets-v11
+        :param tilesize: The size in pixels of the returned tile, either 512 or 256.
+        """
         # https://docs.mapbox.com/api/maps/static-tiles/
         # /styles/v1/{username}/{style_id}/tiles/{tilesize}/{z}/{x}/{y}{@2x}
         base_url = "https://api.mapbox.com/styles/v1/mapbox"

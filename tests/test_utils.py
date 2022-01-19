@@ -46,10 +46,14 @@ def test_mapbox_geopoint_to_xy(inp, expected_output):
 
 
 @pytest.mark.parametrize("ix,iy,zoom,style_id,tilesize", [
-    (8793, 5613, 14, "satellite-v9", 512),
+    (8794, 5614, 14, "satellite-v9", 512),
     (4397, 2807, 13, "satellite-v9", 512),
     (2198, 1403, 12, "satellite-v9", 512),
     (1099, 701, 11, "satellite-v9", 512),
+    (8794, 5614, 14, "streets-v11", 512),
+    (4397, 2807, 13, "streets-v11", 512),
+    (2198, 1403, 12, "streets-v11", 512),
+    (1099, 701, 11, "streets-v11", 512),
 ])
 def test_download_static_tiles(ix, iy, zoom, style_id, tilesize):
     tile = utils.MapboxTile(x=ix, y=iy, z=zoom)
