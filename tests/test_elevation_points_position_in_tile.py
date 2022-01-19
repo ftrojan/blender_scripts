@@ -20,6 +20,13 @@ e10=tile(2*x+1,2*y)
 e11=tile(2*x+1,2*y+1)
 are elevations at zoom level Z+1 on the child tiles
 
+The results reject the hypothesis. The four distances are greater than zero,
+they are of the same magnitude as the elevation differences within the grid
+and they are increasing with zoom out.
+
+We conclude that the Mapbox elevation points correspond to the centers of each 256*256 rectangle
+making the tile.
+
 Filip Trojan 2022-01-18
 """
 
@@ -44,7 +51,9 @@ def dist(a: np.ndarray, b: np.ndarray) -> float:
 
 @pytest.mark.parametrize("ix,iy,zoom", [
     (8793, 5613, 14),
-    (8794, 5614, 14),
+    (4397, 2807, 13),
+    (2198, 1403, 12),
+    (1099, 701, 11),
 ])
 def test_elevation_points_position(ix, iy, zoom):
     tile = utils.MapboxTile(x=ix, y=iy, z=zoom)
@@ -63,7 +72,3 @@ def test_elevation_points_position(ix, iy, zoom):
     d10 = dist(e10[i2, i2], e[i0, i1])
     d11 = dist(e11[i2, i2], e[i1, i1])
     logging.info(f"completed MAD00={d00:.1f}m MAD01={d01:.1f}m MAD10={d10:.1f}m MAD11={d11:.1f}m")
-    assert d00 < tol
-    assert d01 < tol
-    assert d10 < tol
-    assert d11 < tol

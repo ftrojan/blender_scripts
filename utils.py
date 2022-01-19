@@ -3,7 +3,7 @@ import logging
 import os
 import json
 import math
-from typing import NamedTuple, Tuple, Optional
+from typing import NamedTuple, Tuple
 import numpy as np
 import geopy.distance
 import requests
@@ -68,7 +68,8 @@ class MapboxTile(NamedTuple):
     z: int
 
     def __repr__(self):
-        s = f"MapboxTile x={self.x} y={self.y} z={self.z}"
+        h = self.size_m()
+        s = f"MapboxTile x={self.x} y={self.y} z={self.z} size={h.x:.0f}*{h.y:.0f}m"
         return s
 
     def ul(self) -> GeoPoint:
@@ -80,9 +81,23 @@ class MapboxTile(NamedTuple):
         lat_deg = math.degrees(lat_rad)
         return GeoPoint(longitude=lon_deg, latitude=lat_deg)
 
+    def ur(self) -> GeoPoint:
+        """Return the upper right GeoPoint of the tile."""
+        return MapboxTile(self.x + 1, self.y, self.z).ul()
+
+    def bl(self) -> GeoPoint:
+        """Return the bottom left GeoPoint of the tile."""
+        return MapboxTile(self.x, self.y + 1, self.z).ul()
+
     def br(self) -> GeoPoint:
         """Return the bottom right GeoPoint of a tile."""
         return MapboxTile(self.x + 1, self.y + 1, self.z).ul()
+
+    def size_m(self) -> SceneVector:
+        """Return size of the tile in meters."""
+        w = geo_distance(self.ul(), self.ur())
+        h = geo_distance(self.ul(), self.bl())
+        return SceneVector(x=w, y=h)
 
     def tile_key(self) -> str:
         key = f"{self.x}_{self.y}_{self.z}"
@@ -103,7 +118,7 @@ class MapboxTile(NamedTuple):
             path = self.elevation_tile_path()
             with open(path, 'wb') as fp:
                 fp.write(response.content)
-                logging.debug(f"{path} saved")
+                logging.info(f"{path} saved")
         else:
             logging.error(response.text)
 
