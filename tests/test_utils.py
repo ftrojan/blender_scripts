@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pytest
 import logging
@@ -42,3 +43,19 @@ def test_mapbox_geopoint_to_xy(inp, expected_output):
     logging.info(f"{geopoint} zoom={zoom} -> mapbox {output}")
     assert np.isclose(output.x, expected_output.x)
     assert np.isclose(output.y, expected_output.y)
+
+
+@pytest.mark.parametrize("ix,iy,zoom,style_id,tilesize", [
+    (8793, 5613, 14, "satellite-v9", 512),
+    (4397, 2807, 13, "satellite-v9", 512),
+    (2198, 1403, 12, "satellite-v9", 512),
+    (1099, 701, 11, "satellite-v9", 512),
+])
+def test_download_static_tiles(ix, iy, zoom, style_id, tilesize):
+    tile = utils.MapboxTile(x=ix, y=iy, z=zoom)
+    logging.info(f"started with {tile}")
+    path = tile.static_tile_path(style_id, tilesize)
+    if os.path.isfile(path):
+        os.remove(path)
+    tile.download_static_tile(style_id, tilesize)
+    assert os.path.isfile(path)

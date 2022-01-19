@@ -108,6 +108,11 @@ class MapboxTile(NamedTuple):
         path = os.path.join(elevation_tiles_dir, f"elevation_{self.tile_key()}.png")
         return path
 
+    def static_tile_path(self, style_id: str, tilesize: int):
+        elevation_tiles_dir = "tile_data"
+        path = os.path.join(elevation_tiles_dir, f"{style_id}_{self.tile_key()}_{tilesize}.jpeg")
+        return path
+
     def download_elevation(self):
         # https://docs.mapbox.com/help/troubleshooting/access-elevation-data/
         base_url = "https://api.mapbox.com/v4/mapbox.terrain-rgb"
@@ -116,6 +121,22 @@ class MapboxTile(NamedTuple):
         response = requests.get(url, param)
         if response.ok:
             path = self.elevation_tile_path()
+            with open(path, 'wb') as fp:
+                fp.write(response.content)
+                logging.info(f"{path} saved")
+        else:
+            logging.error(response.text)
+
+    def download_static_tile(self, style_id: str, tilesize: int = 512):
+        """Download and save raster image 512*512 from mapbox."""
+        # https://docs.mapbox.com/api/maps/static-tiles/
+        # /styles/v1/{username}/{style_id}/tiles/{tilesize}/{z}/{x}/{y}{@2x}
+        base_url = "https://api.mapbox.com/styles/v1/mapbox"
+        url = f"{base_url}/{style_id}/tiles/{tilesize}/{self.z}/{self.x}/{self.y}"
+        param = dict(access_token=mapbox_token)
+        response = requests.get(url, param)
+        if response.ok:
+            path = self.static_tile_path(style_id, tilesize)
             with open(path, 'wb') as fp:
                 fp.write(response.content)
                 logging.info(f"{path} saved")
