@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://d3js.org/d3.v4.js"></script>
+<script>
+    console.log("Ahoj ####");
+    d3.csv("employee.csv", function(data) {
+        console.log(data);
+    });
+    d3.json("/pipeline_data/mustek001/pipeline_mapbox_inputs.json", function(data) {
+        console.log(data);
+    });
+</script>

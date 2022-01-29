@@ -1,0 +1,72 @@
+<!-- Code from d3-graph-gallery.com -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- specific plugin -->
+<script src="https://d3js.org/d3-contour.v1.min.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+
+<script>
+
+// set the dimensions and margins of the graph
+let margin = {top: 20, right: 30, bottom: 30, left: 40},
+    width = 750 - margin.left - margin.right,
+    height = 750 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+let svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// read data
+d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_for_density2d.csv", function(data) {
+
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain([5, 20])
+    .range([ 0, width ]);
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([5, 22])
+    .range([ height, 0 ]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  // compute the density data
+  var densityData = d3.contourDensity()
+    .x(function(d) { return x(d.x); })   // x and y = column name in .csv input data
+    .y(function(d) { return y(d.y); })
+    .size([width, height])
+    .bandwidth(10)    // smaller = more precision in lines = more lines
+    (data)
+
+  // log
+  console.log(densityData);
+
+  // Add the contour: several "path"
+  svg
+    .selectAll("path")
+    .data(densityData)
+    .enter()
+    .append("path")
+      .attr("d", d3.geoPath())
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-width", (d, i) => i % 5 ? 0.25 : 1)
+})
+</script>

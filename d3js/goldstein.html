@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-contour.v1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-scale@4"></script>
+<div id="dataviz"></div>
+<script>
+  goldstein_price = (x, y) =>
+    (1 + (x + y + 1) ** 2 * (19 - 14 * x + 3 * x ** 2 - 14 * y + 6 * x * y + 3 * y ** 2))
+    * (30 + (2 * x - 3 * y) ** 2 * (18 - 32 * x + 12 * x * x + 48 * y - 36 * x * y + 27 * y ** 2));
+  let testz = goldstein_price(0.5, 0.5);
+  console.log(testz);
+  let margin = {top: 20, right: 30, bottom: 30, left: 40};
+  let width = 900 - margin.left - margin.right;
+  let height = 900 - margin.top - margin.bottom;
+  let svg = d3.select("#dataviz")
+    .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom);
+  let thresholds = d3.range(1, 20).map(i => Math.pow(2, i));
+  let color = d3.scaleSequentialLog(d3.extent(thresholds), d3.interpolateMagma);
+  let x = d3.scaleLinear([-2, 2], [0, width + 28]);
+  let y = d3.scaleLinear([-2, 1], [height, 0]);
+  // grid
+  const q = 4; // The level of detail, e.g., sample every 4 pixels in x and y.
+  const x0 = -q / 2, x1 = width + 28 + q;
+  const y0 = -q / 2, y1 = height + q;
+  const n = Math.ceil((x1 - x0) / q);
+  const m = Math.ceil((y1 - y0) / q);
+  const grid = new Array(n * m);
+  for (let j = 0; j < m; ++j) {
+    for (let i = 0; i < n; ++i) {
+      grid[j * n + i] = goldstein_price(x.invert(i * q + x0), y.invert(j * q + y0));
+    }
+  }
+  grid.x = -q;
+  grid.y = -q;
+  grid.k = q;
+  grid.n = n;
+  grid.m = m;
+  console.log(grid);
+  transform = ({type, value, coordinates}) => {
+      return {type, value, coordinates: coordinates.map(rings => {
+        return rings.map(points => {
+          return points.map(([x, y]) => ([
+            grid.x + grid.k * x,
+            grid.y + grid.k * y
+          ]));
+        });
+      })};
+    }
+  contours = d3.contours()
+    .size([grid.n, grid.m])
+    .thresholds(thresholds)
+  (grid)
+    .map(transform);
+  console.log(contours);
+  xAxis = g => g
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisTop(x).ticks(width / height * 10))
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll(".tick").filter(d => x.domain().includes(d)).remove());
+  svg.append("g")
+      .call(xAxis);
+  yAxis = g => g
+    .attr("transform", "translate(-1,0)")
+    .call(d3.axisRight(y))
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll(".tick").filter(d => y.domain().includes(d)).remove());
+  svg.append("g")
+      .call(yAxis);
+  svg
+    .selectAll("path")
+    .data(contours)
+    .enter()
+    .append("path")
+      .attr("d", d3.geoPath())
+      .attr("fill", d => color(d.value))
+      .attr("fill-opacity", 0.02)
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-width", (d, i) => i % 5 ? 0.25 : 1)
+</script>
