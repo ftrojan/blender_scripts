@@ -3,7 +3,7 @@ import logging
 import os
 import json
 import math
-from typing import NamedTuple, Tuple
+from typing import NamedTuple, Tuple, List
 import numpy as np
 import geopy.distance
 import requests
@@ -157,11 +157,17 @@ class MapboxTile(NamedTuple):
             elevation_array = -10000.0 + 6553.6 * red + 25.6 * green + 0.1 * blue
             return elevation_array
 
-    def elevation(self) -> np.ndarray:
+    def elevation(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         if not os.path.isfile(self.elevation_tile_path()):
             self.download_elevation()
         e = self.elevation_from_file()
-        return e
+        nx, ny = e.shape
+        p0 = self.bl()
+        p1 = self.ur()
+        x = np.linspace(start=p0.longitude, stop=p1.longitude, num=nx)
+        y = np.linspace(start=p0.latitude, stop=p1.latitude, num=ny)
+        logging.info(f"elevation between {np.min(e)} and {np.max(e)} on {nx}*{ny} grid")
+        return x, y, e
 
 
 data_dir = 'pipeline_data'
@@ -435,3 +441,52 @@ def pipeline_inputs(pipeline_id: str) -> dict:
         inputs = json.load(fp)
         logging.debug(inputs)
     return inputs
+
+
+def grid_join_tiles(x1, x2, y1, y2, z) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Join tiles elevation into a single array."""
+    tile_nx, tile_ny = 256, 256
+    ntx, nty = x2 - x1 + 1, y2 - y1 + 1
+    x = np.zeros((ntx * tile_nx))
+    y = np.zeros((nty * tile_ny))
+    e = np.zeros((ntx * tile_nx, nty * tile_ny))
+    for ix, tx in enumerate(range(x1, x2 + 1)):
+        for iy, ty in enumerate(range(y1, y2 + 1)):
+            tile = MapboxTile(tx, ty, z)
+            xx, yy, ee = tile.elevation()
+            jx = slice(tile_nx * ix, tile_nx * (ix + 1))
+            jy = slice(tile_ny * iy, tile_ny * (iy + 1))
+            x[jx] = xx
+            y[jy] = yy
+            e[jy, jx] = ee
+    return x, y, e
+
+
+def d3grid(x, y, z) -> dict:
+    """Create JSON to pass into d3.contours from x vector, y vector and z 2D array."""
+    ny = len(y)
+    nx = len(x)
+    assert z.shape == (ny, nx)
+    p = ny * nx
+    v = p * [0]
+    for iy in range(ny):
+        for ix in range(nx):
+            v[iy * nx + ix] = z[iy, ix]
+    result = dict(
+        width=nx,
+        height=ny,
+        values=v,
+        x1=float(x[0]),
+        x2=float(x[-1]),
+        y1=float(y[0]),
+        y2=float(y[-1]),
+    )
+    logging.info(f"grid {nx}*{ny}={p} created")
+    return result
+
+
+def save_d3grid(grid, pipeline_id):
+    json_path = os.path.join(data_dir, pipeline_id, "elevation_d3.json")
+    with open(json_path, 'w') as fp:
+        json.dump(grid, fp, indent=2)
+    logging.info(f"grid {grid['width']}*{grid['height']} saved to {json_path}")

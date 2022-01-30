@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-contour.v1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-scale@4"></script>
+<div id="dataviz"></div>
+<script>
+  d3.json("/pipeline_data/mustek001/elevation_d3.json", function(data) {
+    console.log(data);
+  let margin = {top: 20, right: 30, bottom: 30, left: 40};
+  let width = 800 - margin.left - margin.right;
+  let height = 800 - margin.top - margin.bottom;
+  let svg = d3.select("#dataviz")
+    .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom);
+  const k = width / data.width;
+  const delta = 10;
+  const thick = 5;
+  let emin = Math.floor(d3.min(data.values)/delta/thick)*delta*thick;
+  let emax = Math.ceil(d3.max(data.values)/delta/thick)*delta*thick;
+  let thresholds = d3.range(emin, emax, delta);
+  console.log(thresholds);
+  let color = d3.scaleSequentialLog(d3.extent(thresholds), d3.interpolateMagma);
+  let x = d3.scaleLinear([data.x1, data.x2], [0, width]);
+  let y = d3.scaleLinear([data.y1, data.y2], [height, 0]);
+  let transform = ({type, value, coordinates}) => {
+      return {type, value, coordinates: coordinates.map(rings => {
+        return rings.map(points => {
+          return points.map(([x, y]) => ([
+            k * x,
+            k * y
+          ]));
+        });
+      })};
+    }
+  let contours = d3.contours()
+    .size([data.width, data.height])
+    .thresholds(thresholds)
+    (data.values)
+    .map(transform);
+  let xAxis = g => g
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisTop(x).ticks(width / height * 10))
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll(".tick").filter(d => x.domain().includes(d)).remove());
+  svg.append("g")
+      .call(xAxis);
+  let yAxis = g => g
+    .attr("transform", "translate(-1,0)")
+    .call(d3.axisRight(y))
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll(".tick").filter(d => y.domain().includes(d)).remove());
+  svg.append("g")
+      .call(yAxis);
+  svg
+    .selectAll("path")
+    .data(contours)
+    .enter()
+    .append("path")
+      .attr("d", d3.geoPath())
+      .attr("fill", d => color(d.value))
+      .attr("fill-opacity", 0.02)
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-width", (d, i) => i % thick ? 0.25 : 1)
+  });
+</script>
