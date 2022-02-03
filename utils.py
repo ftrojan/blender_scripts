@@ -157,6 +157,9 @@ class MapboxTile(NamedTuple):
             elevation_array = -10000.0 + 6553.6 * red + 25.6 * green + 0.1 * blue
             return elevation_array
 
+    def static_tile_from_file(self, style_id: str, tilesize: int = 512) -> Image:
+        return Image.open(self.static_tile_path(style_id, tilesize))
+
     def elevation(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         if not os.path.isfile(self.elevation_tile_path()):
             self.download_elevation()
@@ -168,6 +171,13 @@ class MapboxTile(NamedTuple):
         y = np.linspace(start=p0.latitude, stop=p1.latitude, num=ny)
         logging.info(f"elevation between {np.min(e)} and {np.max(e)} on {nx}*{ny} grid")
         return x, y, e
+
+    def static_tile(self, style_id: str, tilesize: int = 512) -> Image:
+        if not os.path.isfile(self.static_tile_path(style_id, tilesize)):
+            self.download_static_tile(style_id, tilesize)
+        im = self.static_tile_from_file(style_id, tilesize)
+        logging.info(f"static tile {style_id} {im.width}*{im.height}")
+        return im
 
 
 data_dir = 'pipeline_data'
@@ -490,3 +500,34 @@ def save_d3grid(grid, pipeline_id):
     with open(json_path, 'w') as fp:
         json.dump(grid, fp, indent=2)
     logging.info(f"grid {grid['width']}*{grid['height']} saved to {json_path}")
+
+
+def texture_join_tiles(inp: dict, tilesize: int = 512) -> dict:
+    result = {}
+    ntx, nty = inp["x2"] - inp["x1"] + 1, inp["y2"] - inp["y1"] + 1
+    for style in inp["styles"]:
+        a = {}
+        for ix, tx in enumerate(range(inp["x1"], inp["x2"] + 1)):
+            for iy, ty in enumerate(range(inp["y1"], inp["y2"] + 1)):
+                tile = MapboxTile(tx, ty, inp["zoom"])
+                imxy = tile.static_tile(style, tilesize)
+                a[ix, iy] = imxy.copy()
+        sx = [max([a[ix, iy].width for iy in range(nty)]) for ix in range(ntx)]
+        sy = [max([a[ix, iy].height for ix in range(ntx)]) for iy in range(nty)]
+        cx = [sum(sx[:ix]) for ix in range(ntx)]
+        cy = [sum(sy[:iy]) for iy in range(nty)]
+        im = Image.new('RGB', (sum(sx), sum(sy)))
+        logging.info(f"created {im}")
+        for ix in range(ntx):
+            for iy in range(nty):
+                imxy = a[ix, iy]
+                logging.info(f"pasting {imxy.width}*{imxy.height} at {ix}, {iy} = {cx[ix]}, {cy[iy]}")
+                im.paste(imxy, (cx[ix], cy[iy]))
+        result[style] = im
+    return result
+
+
+def save_texture(textures: dict, pipeline_id: str):
+    for style, im in textures.items():
+        texture_path = os.path.join(data_dir, pipeline_id, f"texture_{style}.png")
+        im.save(texture_path, format="png")
