@@ -454,8 +454,13 @@ def pipeline_inputs(pipeline_id: str) -> dict:
     return inputs
 
 
-def grid_join_tiles(x1: int, x2: int, y1: int, y2: int, z: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+def grid_join_tiles(inputs: dict) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Join tiles elevation into a single array."""
+    x1 = inputs["x1"]
+    x2 = inputs["x2"]
+    y1 = inputs["y1"]
+    y2 = inputs["y2"]
+    z = inputs["zoom"]
     tile_nx, tile_ny = 256, 256
     ntx, nty = x2 - x1 + 1, y2 - y1 + 1
     x = np.zeros((ntx * tile_nx))
