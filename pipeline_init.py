@@ -11,20 +11,6 @@ logging.basicConfig(level=logging.DEBUG, format=logfmt)
 # variables
 pipeline_id = "tok001"
 utils.probe_pipeline(pipeline_id)
-pipelines = dict(
-    beroun001=dict(
-        center=utils.GeoPoint(longitude=14.0340, latitude=49.9673),
-        size_meters=utils.SceneVector(x=10000, y=10000)),
-    tok001=dict(
-        center=utils.GeoPoint(longitude=13.8768, latitude=49.7042),
-        size_meters=utils.SceneVector(x=10000, y=10000)),
-    praded001=dict(
-        center=utils.GeoPoint(longitude=17.2315, latitude=50.0828),
-        size_meters=utils.SceneVector(x=10000, y=10000)),
-    mustek001=dict(
-        center=utils.GeoPoint(longitude=13.2637007, latitude=49.18307085),
-        size_meters=utils.SceneVector(x=10000, y=10000)),
-)
 inputs = utils.pipeline_inputs(pipeline_id)
 pipeline = dict(
     center=utils.GeoPoint(longitude=inputs["cen_longitude"], latitude=inputs["cen_latitude"]),

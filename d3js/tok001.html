@@ -25,15 +25,15 @@
 <script src="https://d3js.org/d3-contour.v1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3-scale@4"></script>
 <div class="img-overlay-wrap">
-    <img src="../pipeline_data/tok001/texture_streets-v12.png" style="width:1560px;height:1560px;"/>
+    <img src="../pipeline_data/tok001/texture_streets-v12.png" style="width:1860px;height:1860px;"/>
     <div id="dataviz"></div>
 </div>
 <script>
   d3.json("../pipeline_data/tok001/elevation_d3_brdy5.json", function(data) {
     console.log(data);
   let margin = {top: 20, right: 20, bottom: 20, left: 20};
-  let width = 1600 - margin.left - margin.right;
-  let height = 1600 - margin.top - margin.bottom;
+  let width = 1900 - margin.left - margin.right;
+  let height = 1900 - margin.top - margin.bottom;
   let svg = d3.select("#dataviz")
     .append("svg")
       .attr("width", width + margin.left + margin.right)
