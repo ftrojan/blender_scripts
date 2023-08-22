@@ -8,7 +8,7 @@ logfmt = '%(asctime)s - %(levelname)s - %(module)s.%(funcName)s#%(lineno)d - %(m
 logging.basicConfig(level=logging.DEBUG, format=logfmt)
 
 # variables
-pipeline_id = "mustek001"
+pipeline_id = "tok001"
 utils.probe_pipeline(pipeline_id)
 pipelines = dict(
     beroun001=dict(

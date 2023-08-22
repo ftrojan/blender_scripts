@@ -298,7 +298,7 @@ def mapbox_png(pipeline_id: str, bb: np.ndarray, size_px: Tuple[int, int], style
 def probe_pipeline(pipeline_id: str):
     pipeline_dir = os.path.join(data_dir, pipeline_id)
     if not os.path.isdir(pipeline_dir):
-        os.mkdir(pipeline_dir)
+        os.makedirs(pipeline_dir, exist_ok=True)
 
 
 def texture(pipeline_id, pipeline, mapbox_job, bbox):
