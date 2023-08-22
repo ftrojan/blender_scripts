@@ -1,5 +1,5 @@
 {
-    "styles": ["sattelite-v9", "streets-v11"],
+    "styles": ["satellite-v9", "streets-v12"],
     "min_longitude": 13.684,
     "cen_longitude": 13.8768,
     "max_longitude": 14.053,

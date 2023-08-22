@@ -9,7 +9,7 @@ import geopy.distance
 import requests
 from PIL import Image
 
-
+logger = logging.getLogger(__name__)
 R2D = 180 / math.pi
 
 
@@ -139,6 +139,7 @@ class MapboxTile(NamedTuple):
         base_url = "https://api.mapbox.com/styles/v1/mapbox"
         url = f"{base_url}/{style_id}/tiles/{tilesize}/{self.z}/{self.x}/{self.y}"
         param = dict(access_token=mapbox_token)
+        logger.debug(f"GET {url}")
         response = requests.get(url, param)
         if response.ok:
             path = self.static_tile_path(style_id, tilesize)
