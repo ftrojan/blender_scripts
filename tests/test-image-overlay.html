@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <style>
+.img-overlay-wrap {
+  position: relative;
+  display: inline-block; /* <= shrinks container to image size */
+  transition: transform 150ms ease-in-out;
+}
+
+.img-overlay-wrap img { /* <= optional, for responsiveness */
+   display: block;
+   max-width: 100%;
+   height: auto;
+}
+
+.img-overlay-wrap svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.img-overlay-wrap:hover {
+  transform: rotate( 15deg );
+}
+    </style>
+</head>
+<body>
+    <h1>Based on <a href="https://stackoverflow.com/questions/43806515/position-svg-elements-over-an-image">stackoverflow</a></h1>
+    <div class="img-overlay-wrap">
+        <img src="https://via.placeholder.com/400">
+        <svg viewBox="0 0 200 200">
+          <circle cx="75" cy="75" r="50" fill="rebeccapurple"/>
+        </svg>
+      </div>
+</body>
