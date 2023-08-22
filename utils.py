@@ -496,8 +496,17 @@ def d3grid(x, y, z) -> dict:
     return result
 
 
-def save_d3grid(grid, pipeline_id):
-    json_path = os.path.join(data_dir, pipeline_id, "elevation_d3.json")
+def d3grid_apply(d: dict, fun) -> dict:
+    """Apply scalar function fun to values and return dictionary."""
+    values = [fun(v) for v in d["values"]]
+    d["values"] = values
+    return d
+
+
+def save_d3grid(grid, pipeline_id, filename: str = None):
+    if filename is None:
+        filename = "elevation_d3.json"
+    json_path = os.path.join(data_dir, pipeline_id, filename)
     with open(json_path, 'w') as fp:
         json.dump(grid, fp, indent=2)
     logging.info(f"grid {grid['width']}*{grid['height']} saved to {json_path}")

@@ -1,18 +1,18 @@
 {
-    "styles": ["sattelite-v9"],
+    "styles": ["satellite-v9", "streets-v12"],
     "min_longitude": 13.684,
     "cen_longitude": 13.8768,
     "max_longitude": 14.053,
     "min_latitude": 49.627,
     "cen_latitude": 49.7042,
     "max_latitude": 49.830,
-    "width_px": 300,
-    "height_px": 300,
+    "width_px": 400,
+    "height_px": 400,
     "size_meters_x": 10000,
     "size_meters_y": 10000,
-    "x1": 2198,
-    "x2": 2199,
-    "y1": 1402,
-    "y2": 1403,
-    "zoom": 12
+    "zoom": 12,
+    "x1": 2204,
+    "y1": 1392,
+    "x2": 2208,
+    "y2": 1396
 }

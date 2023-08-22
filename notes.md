@@ -10,6 +10,11 @@ https://docs.mapbox.com/playground/static/
 
 https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/14.034,49.9673,16,0/600x600@2x?access_token=pk.eyJ1IjoiZnRyb2phbiIsImEiOiJjazlxcGN2eWEwM28yM3FwaW9kdThocmNjIn0.7owFB0UrzG_gV8HxIVCX1A
 
+Tile coordinates: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+Play to get tile coordinates: https://docs.mapbox.com/playground/gl-js-usage/
+
+## Tiles
+
 # Elevation - openrouteservice
 
 https://openrouteservice.org/dev/#/api-docs/elevation/line/post

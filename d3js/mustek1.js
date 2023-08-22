@@ -10,7 +10,7 @@ let mouse = {
 }
 
 const background = new Image();
-background.src = "/pipeline_data/mustek001/texture_streets-v11.png";
+background.src = "../pipeline_data/mustek001/texture_streets-v11.png";
 
 canvas.addEventListener("mousemove", function(e){
   mouse.x = e.offsetX;
@@ -53,7 +53,7 @@ function animate(){
   }
 }
 
-d3.json("/pipeline_data/mustek001/elevation_d3.json", function(d) {
+d3.json("../pipeline_data/mustek001/elevation_d3.json", function(d) {
   let el = d;
   console.log(el);
   const k = canvas.width / d.width;

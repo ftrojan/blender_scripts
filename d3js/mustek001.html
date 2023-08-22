@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/d3-scale@4"></script>
 <div id="dataviz"></div>
 <script>
-  d3.json("/pipeline_data/mustek001/elevation_d3.json", function(data) {
+  d3.json("../pipeline_data/mustek001/elevation_d3.json", function(data) {
     console.log(data);
   let margin = {top: 20, right: 30, bottom: 30, left: 40};
   let width = 800 - margin.left - margin.right;
